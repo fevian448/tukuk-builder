@@ -187,6 +187,18 @@ export default defineConfig((config) => {
     ],
 
     /*
+     * Tukuk Builder sits behind a Cloudflare Tunnel (dashboard.tukuk.org /
+     * build.tukuk.org -> 127.0.0.1:5174). Vite rejects any Host header outside
+     * its allow-list (DNS-rebinding protection) — permit our own domain only.
+     */
+    preview: {
+      allowedHosts: ['.tukuk.org'],
+    },
+    server: {
+      allowedHosts: ['.tukuk.org'],
+    },
+
+    /*
      * Test configuration lives in vitest.config.ts.
      *
      * It used to live here, which meant the test runner loaded this file and
