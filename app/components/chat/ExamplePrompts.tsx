@@ -1,13 +1,13 @@
 import React from 'react';
 
 const EXAMPLE_PROMPTS = [
+  { text: 'Make a 3D endless runner' },
+  { text: 'Build a WebGL racing game' },
+  { text: 'Create a voxel exploration game' },
+  { text: 'Make a first-person shooter in 3D' },
+  { text: 'Build a puzzle game with Three.js' },
+  { text: 'Make a 3D Flappy Bird clone' },
   { text: 'Build a personal portfolio' },
-  { text: 'Make a recipe finder' },
-  { text: 'Build a markdown blog' },
-  { text: 'Create a Kanban board in react' },
-  { text: 'Make a Pomodoro timer' },
-  { text: 'Make a simple landing page' },
-  { text: 'Make a slide deck about dogs' },
 ];
 
 /**
