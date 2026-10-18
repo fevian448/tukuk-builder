@@ -44,6 +44,12 @@ export default class TukukProvider extends BaseProvider {
 
   staticModels: ModelInfo[] = [
     {
+      name: 'tukuk-agent-fast',
+      label: 'Tukuk Agent Fast — respons kilat (LKM ringan)',
+      provider: 'Tukuk',
+      maxTokenAllowed: 16384,
+    },
+    {
       name: 'tukuk-agent',
       label: 'Tukuk Agent — rotasi awan (GPT-OSS-120B)',
       provider: 'Tukuk',
@@ -84,9 +90,14 @@ export default class TukukProvider extends BaseProvider {
 
       return res.data.map((model) => ({
         name: model.id,
-        label: model.id === 'tukuk-agent' ? 'Tukuk Agent — rotasi awan (GPT-OSS-120B)' : model.id,
+        label:
+          model.id === 'tukuk-agent'
+            ? 'Tukuk Agent — rotasi awan (GPT-OSS-120B)'
+            : model.id === 'tukuk-agent-fast'
+              ? 'Tukuk Agent Fast — respons kilat (LKM ringan)'
+              : model.id,
         provider: this.name,
-        maxTokenAllowed: 32768,
+        maxTokenAllowed: model.id === 'tukuk-agent-fast' ? 16384 : 32768,
       }));
     } catch (error) {
       // Proksi mati / tiada rangkaian — senarai statik masih guna biasa.

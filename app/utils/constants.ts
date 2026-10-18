@@ -7,8 +7,9 @@ export const MODIFICATIONS_TAG_NAME = 'bolt_file_modifications';
 export const MODEL_REGEX = /^\[Model: (.*?)\]\n\n/;
 export const PROVIDER_REGEX = /\[Provider: (.*?)\]\n\n/;
 
-// Model lalai fork Tukuk — sepadan dengan provider 'Tukuk' (proksi /api/agent/v1).
-export const DEFAULT_MODEL = 'tukuk-agent';
+// Model lalai fork Tukuk — pelawat dapat respons kilat serta-merta; Tukuk Agent
+// (gpt-oss-120b) masih boleh dipilih dalam senarai untuk projek besar.
+export const DEFAULT_MODEL = 'tukuk-agent-fast';
 export const PROMPT_COOKIE_KEY = 'cachedPrompt';
 export const TOOL_EXECUTION_APPROVAL = {
   APPROVE: 'Yes, approved.',

@@ -175,6 +175,7 @@ export default defineConfig((config) => {
       config.mode !== 'test' && reactRouter(),
       UnoCSS(),
       chrome129IssuePlugin(),
+      edgeAssetCachePlugin(),
       config.mode === 'production' && optimizeCssModules({ apply: 'build' }),
     ],
     envPrefix: [
@@ -211,6 +212,41 @@ export default defineConfig((config) => {
      */
   };
 });
+
+/*
+ * Tukuk Builder: `vite preview` (miniflare) menghantar aset berhash dengan
+ * `cache-control: public, max-age=0, must-revalidate` — Cloudflare (full
+ * compliance) jadi tidak pernah cache di POP; setiap pelawat memuat turun
+ * ber-MB semula melalui terowongan. Aset /assets/* sudah immutable (nama
+ * berhash) — gantikan header supaya tepi melayan dari POP + mampat automatik.
+ * HTML kekal no-cache supaya pelawat sentiasa dapat rujukan hash terbaru.
+ */
+function edgeAssetCachePlugin() {
+  return {
+    name: 'edgeAssetCachePlugin',
+    configurePreviewServer(server: ViteDevServer) {
+      server.middlewares.use((req, res, next) => {
+        const url = (req.url || '').split('?')[0];
+
+        if (url.startsWith('/assets/') || /\.(?:js|css|svg|png|jpe?g|webp|woff2?|map)(?:$|[?#])/.test(url)) {
+          const immutable = /\/(?:assets|build)\//.test(url) ? 'public, max-age=31536000, immutable' : 'public, max-age=3600, stale-while-revalidate=604800';
+          res.setHeader('Cache-Control', immutable);
+
+          const origSet = res.setHeader.bind(res);
+
+          res.setHeader = (name: string, value: any) => {
+            if (String(name).toLowerCase() === 'cache-control') return origSet(name, immutable);
+            return origSet(name, value);
+          };
+        } else if (req.method === 'GET' && (url === '/' || url.endsWith('.html') || !url.includes('.'))) {
+          res.setHeader('Cache-Control', 'no-cache');
+        }
+
+        next();
+      });
+    },
+  };
+}
 
 function chrome129IssuePlugin() {
   return {
