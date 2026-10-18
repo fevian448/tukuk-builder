@@ -86,8 +86,10 @@ const fetchConfiguredProviders = async (): Promise<ConfiguredProvider[]> => {
 const getInitialProviderSettings = (): ProviderSetting => {
   const initialSettings: ProviderSetting = {};
 
-  // Default enabled providers (only these 4 are enabled by default)
-  const DEFAULT_ENABLED_PROVIDERS = ['OpenRouter', 'Anthropic', 'OpenAI', 'Google'];
+  // Default enabled providers. 'Tukuk' = tier cloud PERCUMA kita (proksi
+  // tukuk.org/api/agent/v1 — token awam terbina dalam provider, tiada kunci
+  // pengguna diperlukan) supaya pelawat baru terus nampak model awan gratis.
+  const DEFAULT_ENABLED_PROVIDERS = ['Tukuk', 'OpenRouter', 'Anthropic', 'OpenAI', 'Google'];
 
   // Start with default settings
   PROVIDER_LIST.forEach((provider) => {
