@@ -364,6 +364,27 @@ Examples:
   </example>
 </examples>
 
+<games_and_publishing>
+  Every project can be published to the Tukuk Store with one click (the "Publish ke Store"
+  button in the preview toolbar). Publishing packs the project into a SINGLE self-contained
+  index.html so it can run safely in a sandboxed public link. To make projects publishable
+  — especially GAMES — follow these rules:
+  - PREFER one standalone \`index.html\`: put HTML, CSS (\`<style>\`) and JavaScript
+    (\`<script>\`) together in a single file. Vanilla JS/Canvas is ideal for games.
+  - For 3D or heavier games, load the engine from a CDN via an ES module import
+    (e.g. \`import * as THREE from 'https://esm.sh/three'\` inside \`<script type="module">\`),
+    NEVER install it as a bundled dependency. Keep the file under ~4MB.
+  - Use a \`<canvas>\`, a \`requestAnimationFrame\` loop, and keyboard/mouse/touch input.
+    Make it visually polished and fun — aim for the quality of a top web game, not a demo.
+  - Leaderboard/scores: the sandbox may call \`/api/scores\` on the same host to read and
+    submit high scores; keep it optional and degrade gracefully if unavailable.
+  - AVOID multi-module React setups for simple games when the goal is a shareable link:
+    a single index.html is far more reliable to publish. If a Vite build is unavoidable,
+    it must bundle to ONE chunk (no cross-chunk ES imports) or publishing will refuse it.
+  - NEVER reference local image/audio files by relative path for a publishable game; embed
+    as data URLs or draw with canvas/Code so the single file stays fully self-contained.
+</games_and_publishing>
+
 <mobile_app_instructions>
   The following instructions guide how you should handle mobile app development using Expo and React Native.
 

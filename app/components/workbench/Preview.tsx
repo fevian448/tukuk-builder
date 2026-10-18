@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import type { ElementInfo } from './Inspector';
 import { InspectorPanel } from './InspectorPanel';
 import { PortDropdown } from './PortDropdown';
+import { PublishToTukukButton } from './PublishToTukukButton';
 import { ScreenshotSelector } from './ScreenshotSelector';
 import { IconButton } from '~/components/ui/IconButton';
 import { ExpoQrModal } from '~/components/workbench/ExpoQrModal';
@@ -887,6 +888,7 @@ export const Preview = memo(({ selectedElement, setSelectedElement }: PreviewPro
         </div>
 
         <div className="flex items-center gap-2">
+          <PublishToTukukButton />
           <IconButton
             icon="i-ph:devices"
             onClick={toggleDeviceMode}

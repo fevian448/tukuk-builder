@@ -19,6 +19,23 @@ export default {
 
     context.cloudflare = { env, ctx };
 
-    return requestHandler(request, context);
+    const response = await requestHandler(request, context);
+
+    /*
+     * Percepatkan lawatan berulang ke build.tukuk.org. Shell HTML adalah generik
+     * (projek dimuat daripada IndexedDB di pelayar), jadi ia boleh di-cache di POP
+     * Cloudflare: TTL pendek + stale-while-revalidate supaya pelawat menerima shell
+     * serta-merta sambil tepi muat semula secara latar belakang. HANYA GET, status
+     * 200, jenis `text/html`, dan BUKAN `/api/*` (chat/SSE/API kekal dinamik).
+     */
+    const isApi = new URL(request.url).pathname.startsWith('/api/');
+    const contentType = response.headers.get('content-type') || '';
+    if (request.method === 'GET' && response.status === 200 && contentType.includes('text/html') && !isApi) {
+      const headers = new Headers(response.headers);
+      headers.set('Cache-Control', 'public, max-age=30, s-maxage=300, stale-while-revalidate=3600');
+      return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+    }
+
+    return response;
   },
 } satisfies ExportedHandler<CloudflareEnvironment>;
