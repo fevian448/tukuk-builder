@@ -1,0 +1,13 @@
+# Workers Static Assets headers (dihormati oleh workerd & Cloudflare edge).
+# build/client/_headers — source of truth = public/_headers (rsync ke pelayan).
+#
+# Tukuk Builder: `vite preview` (workerd) menghantar aset berhash dengan
+# `cache-control: public, max-age=0, must-revalidate` secara lalai → Cloudflare
+# (full compliance) tidak pernah cache di POP → setiap pelawat memuat turun
+# ber-MB melalui terowongan pada setiap lawatan. Nama aset sudah berhash
+# (constants-BDHRr3GF.js), jadi ia immutable sepenuhnya — safe untuk cache
+# 1 tahun. HTML dihidang oleh SSR handler (bukan aset statik) jadi TIDAK
+# terkesan di sini; ia kekal tidak di-cache oleh tepi (DYNAMIC).
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
