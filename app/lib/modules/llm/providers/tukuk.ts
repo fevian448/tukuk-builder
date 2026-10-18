@@ -19,9 +19,11 @@ import { logger } from '~/utils/logger';
 const DEFAULT_TUKUK_BASE_URL = 'https://tukuk.org/api/agent/v1';
 
 /*
- * Token bawaan lama (deploy/env.defaults) — hanya untuk kemudahan dev
- * setempat. Produksi MENENTUKAN TUKUK_API_KEY sebenar melalui env perkhidmatan;
- * token bawaan ini akan ditolak di tukuk.org.
+ * Token bawaan ini = penanda TIER PERCUMA di pelayan (AGENT_FREE_TOKEN).
+ * Ia SENGAJA awam (terbit di GitHub); pelayan melindunginya dengan had kadar
+ * ketat (8/min/IP) + kekangan max_tokens — bukan kerahsiaan token. Klien yang
+ * mempunyai Agent Token sebenar boleh menukar TUKUK_API_KEY melalui UI untuk
+ * had penuh.
  */
 const DEFAULT_TUKUK_TOKEN = '041a0832ab912f44e1814d326ac481e24c5928bc6e8c7089c043ea40cc32618d';
 
